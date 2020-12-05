@@ -9,11 +9,11 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(Parameterized.class)
-public class ParameterizedShoppingCartTest {
+public class CalculateDiscountTest {
     private Pair<ShoppingCart.ItemType, Integer> itemParams;
     private int expectedResult;
 
-    public ParameterizedShoppingCartTest(Pair<ShoppingCart.ItemType, Integer> itemParams, int expectedResult) {
+    public CalculateDiscountTest(Pair<ShoppingCart.ItemType, Integer> itemParams, int expectedResult) {
         this.itemParams = itemParams;
         this.expectedResult = expectedResult;
     }

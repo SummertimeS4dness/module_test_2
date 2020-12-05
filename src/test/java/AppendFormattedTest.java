@@ -2,7 +2,7 @@ import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ShoppingCartTest {
+public class AppendFormattedTest {
     @Test
     public void appendFormatted() {
         StringBuilder sb = new StringBuilder();
