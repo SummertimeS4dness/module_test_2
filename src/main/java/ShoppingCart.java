@@ -88,9 +88,7 @@ public class ShoppingCart {
         // column max length
         int[] width = getColumnMaxLength(lines, header, footer);
         // line length
-        int lineLength = width.length - 1;
-        for (int w : width)
-            lineLength += w;
+        int lineLength = getLineLength(width);
         StringBuilder sb = new StringBuilder();
         // header
         for (int i = 0; i < header.length; i++)
@@ -116,6 +114,13 @@ public class ShoppingCart {
         for (int i = 0; i < footer.length; i++)
             appendFormatted(sb, footer[i], align[i], width[i]);
         return sb.toString();
+    }
+
+    private int getLineLength(int[] width) {
+        int lineLength = width.length - 1;
+        for (int w : width)
+            lineLength += w;
+        return lineLength;
     }
 
     private int[] getColumnMaxLength(List<String[]> lines, String[] header, String[] footer) {
