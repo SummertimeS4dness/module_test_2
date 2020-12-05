@@ -91,25 +91,26 @@ public class ShoppingCart {
         int lineLength = getLineLength(width);
         StringBuilder sb = new StringBuilder();
         // header
-        for (int i = 0; i < header.length; i++)
-            appendFormatted(sb, header[i], align[i], width[i]);
-            sb.append("\n");
+        appendFormattedLine(header, align, width, sb, false);
         // separator
         appendSeparator(lineLength, sb);
         // lines
         for (String[] line : lines) {
-            for (int i = 0; i < line.length; i++)
-                appendFormatted(sb, line[i], align[i], width[i]);
-                sb.append("\n");
+            appendFormattedLine(line, align, width, sb, false);
         }
         if (lines.size() > 0) {
             // separator
             appendSeparator(lineLength, sb);
         }
         // footer
-        for (int i = 0; i < footer.length; i++)
-            appendFormatted(sb, footer[i], align[i], width[i]);
+        appendFormattedLine(footer, align, width, sb, true);
         return sb.toString();
+    }
+
+    private void appendFormattedLine(String[] header, int[] align, int[] width, StringBuilder sb, boolean isFooter) {
+        for (int i = 0; i < header.length; i++)
+            appendFormatted(sb, header[i], align[i], width[i]);
+        if (!isFooter) sb.append("\n");
     }
 
     private void appendSeparator(int lineLength, StringBuilder sb) {
@@ -127,9 +128,8 @@ public class ShoppingCart {
 
     private int[] getColumnMaxLength(List<String[]> lines, String[] header, String[] footer) {
         int[] width = new int[]{0,0,0,0,0,0};
-        for (String[] line : lines) {
+        for (String[] line : lines)
             adjustColumnWidth(width, line);
-        }
         adjustColumnWidth(width, header);
         adjustColumnWidth(width, footer);
         return width;
