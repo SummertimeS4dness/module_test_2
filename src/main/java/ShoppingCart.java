@@ -67,16 +67,20 @@ public class ShoppingCart {
         String[] header = {"#","Item","Price","Quan.","Discount","Total"};
         int[] align = new int[] { 1, -1, 1, 1, 1, 1 };
         List<String[]> lines = getTableLines();
-        // formatting each line
+        double total = getTotal();
+        String[] footer = { String.valueOf(items.size()),"","","","", MONEY.format(total) };
+        // formatting table
+        StringBuilder sb = formatTicketTable(lines, header, align, footer);
+        return sb.toString();
+    }
+
+    private double getTotal() {
         double total = 0.00;
         for (Item item : items) {
             int discount = calculateDiscount(item.type, item.quantity);
             total += item.price * item.quantity * (100.00 - discount) / 100.00;
         }
-        String[] footer = { String.valueOf(items.size()),"","","","", MONEY.format(total) };
-        // formatting table
-        StringBuilder sb = formatTicketTable(lines, header, align, footer);
-        return sb.toString();
+        return total;
     }
 
     private List<String[]> getTableLines() {
