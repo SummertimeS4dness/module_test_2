@@ -1,5 +1,8 @@
-import java.util.*;
-import java.text.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 /**
 * Containing items and calculating price.
 */
@@ -83,14 +86,7 @@ public class ShoppingCart {
         String[] footer = { String.valueOf(index),"","","","", MONEY.format(total) };
         // formatting table
         // column max length
-        int[] width = new int[]{0,0,0,0,0,0};
-        for (String[] line : lines)
-            for (int i = 0; i < line.length; i++)
-                width[i] = (int) Math.max(width[i], line[i].length());
-        for (int i = 0; i < header.length; i++)
-            width[i] = (int) Math.max(width[i], header[i].length());
-        for (int i = 0; i < footer.length; i++)
-            width[i] = (int) Math.max(width[i], footer[i].length());
+        int[] width = getColumnMaxLength(lines, header, footer);
         // line length
         int lineLength = width.length - 1;
         for (int w : width)
@@ -121,6 +117,22 @@ public class ShoppingCart {
             appendFormatted(sb, footer[i], align[i], width[i]);
         return sb.toString();
     }
+
+    private int[] getColumnMaxLength(List<String[]> lines, String[] header, String[] footer) {
+        int[] width = new int[]{0,0,0,0,0,0};
+        for (String[] line : lines) {
+            adjustColumnWidth(width, line);
+        }
+        adjustColumnWidth(width, header);
+        adjustColumnWidth(width, footer);
+        return width;
+    }
+
+    private void adjustColumnWidth(int[] width, String[] line) {
+        for (int i = 0; i < line.length; i++)
+            width[i] = (int) Math.max(width[i], line[i].length());
+    }
+
     // --- private section -----------------------------------------------------
     private static final NumberFormat MONEY;
         static {
