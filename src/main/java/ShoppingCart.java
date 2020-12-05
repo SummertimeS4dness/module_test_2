@@ -64,31 +64,40 @@ public class ShoppingCart {
     public String formatTicket(){
         if (items.size() == 0)
             return "No items.";
-        List<String[]> lines = new ArrayList<String[]>();
         String[] header = {"#","Item","Price","Quan.","Discount","Total"};
         int[] align = new int[] { 1, -1, 1, 1, 1, 1 };
+        List<String[]> lines = getTableLines();
         // formatting each line
         double total = 0.00;
-        int index = 0;
         for (Item item : items) {
             int discount = calculateDiscount(item.type, item.quantity);
-            double itemTotal = item.price * item.quantity * (100.00 - discount) / 100.00;
-            lines.add(new String[]{
-                String.valueOf(++index),
-                item.title,
-                MONEY.format(item.price),
-                String.valueOf(item.quantity),
-                (discount == 0) ? "-" : (String.valueOf(discount) + "%"),
-                MONEY.format(itemTotal)
-            });
-            total += itemTotal;
+            total += item.price * item.quantity * (100.00 - discount) / 100.00;
         }
-        String[] footer = { String.valueOf(index),"","","","", MONEY.format(total) };
+        String[] footer = { String.valueOf(items.size()),"","","","", MONEY.format(total) };
         // formatting table
         StringBuilder sb = formatTicketTable(lines, header, align, footer);
         return sb.toString();
     }
 
+    private List<String[]> getTableLines() {
+        List<String[]> lines = new ArrayList<>();
+        // formatting each line
+        int index = 0;
+        for (Item item : items) {
+            int discount = calculateDiscount(item.type, item.quantity);
+            double itemTotal = item.price * item.quantity * (100.00 - discount) / 100.00;
+            lines.add(new String[]{
+                    String.valueOf(++index),
+                    item.title,
+                    MONEY.format(item.price),
+                    String.valueOf(item.quantity),
+                    (discount == 0) ? "-" : (String.valueOf(discount) + "%"),
+                    MONEY.format(itemTotal)
+            });
+        }
+
+        return lines;
+    }
     private StringBuilder formatTicketTable(List<String[]> lines, String[] header, int[] align, String[] footer) {
         // column max length
         int[] width = getColumnMaxLength(lines, header, footer);
