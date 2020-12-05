@@ -85,6 +85,11 @@ public class ShoppingCart {
         }
         String[] footer = { String.valueOf(index),"","","","", MONEY.format(total) };
         // formatting table
+        StringBuilder sb = formatTicketTable(lines, header, align, footer);
+        return sb.toString();
+    }
+
+    private StringBuilder formatTicketTable(List<String[]> lines, String[] header, int[] align, String[] footer) {
         // column max length
         int[] width = getColumnMaxLength(lines, header, footer);
         // line length
@@ -104,7 +109,7 @@ public class ShoppingCart {
         }
         // footer
         appendFormattedLine(footer, align, width, sb, true);
-        return sb.toString();
+        return sb;
     }
 
     private void appendFormattedLine(String[] header, int[] align, int[] width, StringBuilder sb, boolean isFooter) {
